@@ -31,16 +31,16 @@ public final class CoachMarker: NSObject {
     private var currentMarkerView: UIView?
     
     
-    init(parentView: UIView, dataSource: CoachMarkerDataSource) {
+    public init(parentView: UIView, dataSource: CoachMarkerDataSource) {
         self.parentView = parentView
         self.dataSource = dataSource
     }
     
-    func nextCoachMarker() {
+    public func nextCoachMarker() {
         showCoachMarker()
     }
     
-    func showCoachMarker() {
+    public func showCoachMarker() {
         
         if currentMarkerIndex < dataSource.numberOfMarkers(in: self) {
             changeCoachMarker(data: dataSource.coachMarker(self, markerForItemAtIndex: currentMarkerIndex))
@@ -49,7 +49,7 @@ public final class CoachMarker: NSObject {
         }
     }
     
-    func skipCoachMarker() {
+    public func skipCoachMarker() {
         removeMarker()
         delegate?.coachMarkerDidShow(self)
     }
