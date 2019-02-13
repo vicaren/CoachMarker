@@ -19,19 +19,21 @@ public protocol CoachMarkerDataSource {
 }
 
 public final class CoachMarker: NSObject {
-    private var parentView: UIView
-    private var dataSource: CoachMarkerDataSource
+    private var parentView: UIView!
+    private var dataSource: CoachMarkerDataSource!
     
     private var tutorialView = UIView(frame: .zero)
     
     public var effectAnimationHeight: CGFloat = 10
-    weak var delegate: CoachMarkerDelegate?
+    public weak var delegate: CoachMarkerDelegate?
     
     private var currentMarkerIndex = 0
     private var currentMarkerView: UIView?
     
+    public override init() {}
     
-    public init(parentView: UIView, dataSource: CoachMarkerDataSource) {
+    public convenience init (parentView: UIView, dataSource: CoachMarkerDataSource) {
+        self.init()
         self.parentView = parentView
         self.dataSource = dataSource
     }
