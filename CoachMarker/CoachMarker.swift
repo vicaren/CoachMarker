@@ -8,23 +8,23 @@
 
 import UIKit
 
-protocol CoachMarkerDelegate: class {
+public protocol CoachMarkerDelegate: class {
     func coachMarkerDidShow(_ coachMarker: CoachMarker)
 }
 
-protocol CoachMarkerDataSource {
+public protocol CoachMarkerDataSource {
     func numberOfMarkers(in marker: CoachMarker) -> Int
     func coachMarker(_ coachMarker: CoachMarker, viewForItemAtIndex: Int) -> UIView
     func coachMarker(_ coachMarker: CoachMarker, markerForItemAtIndex: Int) -> CoachMarkerData
 }
 
-final class CoachMarker: NSObject {
+public final class CoachMarker: NSObject {
     private var parentView: UIView
     private var dataSource: CoachMarkerDataSource
     
     private var tutorialView = UIView(frame: .zero)
     
-    var effectAnimationHeight: CGFloat = 10
+    public var effectAnimationHeight: CGFloat = 10
     weak var delegate: CoachMarkerDelegate?
     
     private var currentMarkerIndex = 0
@@ -163,7 +163,7 @@ final class CoachMarker: NSObject {
     }
 }
 
-final class CoachMarkerCircleData: CoachMarkerData {
+public final class CoachMarkerCircleData: CoachMarkerData {
     var radius: CGFloat!
     
     required init(coordinate: CGPoint = .zero, radius: CGFloat = 30) {
@@ -173,7 +173,7 @@ final class CoachMarkerCircleData: CoachMarkerData {
     }
 }
 
-final class CoachMarkerSquareData: CoachMarkerData {
+public final class CoachMarkerSquareData: CoachMarkerData {
     var size: CGSize = CGSize.zero
     
     required init(coordinate: CGPoint = .zero, size: CGSize = .zero) {
@@ -183,7 +183,7 @@ final class CoachMarkerSquareData: CoachMarkerData {
     }
 }
 
-class CoachMarkerData: NSObject {
+public class CoachMarkerData: NSObject {
     var coordinate = CGPoint.zero
 }
 
