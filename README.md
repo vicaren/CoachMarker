@@ -4,7 +4,7 @@
 <img src="https://media.giphy.com/media/1QkVscQMop9JU1b0Wk/giphy.gif" />
 </p>
 
-`CoachMarker` is a helper to simple onboard tutorials
+`CoachMarker` is a helper to simplify onboarding tutorials
 
 ## System Requirements
 iOS 8.0 or above
