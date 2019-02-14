@@ -30,7 +30,7 @@ public final class CoachMarker: NSObject {
     private var currentMarkerIndex = 0
     private var currentMarkerView: UIView?
     
-    public override init() {}
+    public override init() { }
     
     public convenience init (parentView: UIView, dataSource: CoachMarkerDataSource) {
         self.init()
@@ -168,7 +168,9 @@ public final class CoachMarker: NSObject {
 public final class CoachMarkerCircleData: CoachMarkerData {
     var radius: CGFloat!
     
-    required init(coordinate: CGPoint = .zero, radius: CGFloat = 30) {
+    public override init() { }
+    
+    public required init(coordinate: CGPoint = .zero, radius: CGFloat = 30) {
         super.init()
         self.coordinate = coordinate
         self.radius = radius
@@ -178,7 +180,9 @@ public final class CoachMarkerCircleData: CoachMarkerData {
 public final class CoachMarkerSquareData: CoachMarkerData {
     var size: CGSize = CGSize.zero
     
-    required init(coordinate: CGPoint = .zero, size: CGSize = .zero) {
+    public override init() { }
+    
+    public required init(coordinate: CGPoint = .zero, size: CGSize = .zero) {
         super.init()
         self.coordinate = coordinate
         self.size = size
@@ -188,5 +192,3 @@ public final class CoachMarkerSquareData: CoachMarkerData {
 public class CoachMarkerData: NSObject {
     var coordinate = CGPoint.zero
 }
-
-
