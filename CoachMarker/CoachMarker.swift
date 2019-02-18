@@ -12,38 +12,54 @@ public protocol CoachMarkerDelegate: class {
     func coachMarkerDidShow(_ coachMarker: CoachMarker)
 }
 
-public protocol CoachMarkerDataSource {
+public protocol CoachMarkerDataSource: class {
     func numberOfMarkers(in marker: CoachMarker) -> Int
     func coachMarker(_ coachMarker: CoachMarker, viewForItemAtIndex: Int) -> UIView
     func coachMarker(_ coachMarker: CoachMarker, markerForItemAtIndex: Int) -> CoachMarkerData
 }
 
 public final class CoachMarker: NSObject {
+    
+    // MARK: - Private Variables etc.
+    private let animationKey = "coachMarkerPathAnimation"
+    private weak var dataSource: CoachMarkerDataSource?
+    
     private var parentView: UIView!
-    private var dataSource: CoachMarkerDataSource!
-    
     private var tutorialView = UIView(frame: .zero)
-    
-    public var effectAnimationHeight: CGFloat = 10
-    public weak var delegate: CoachMarkerDelegate?
-    
+    private var pathAnimation: CABasicAnimation?
     private var currentMarkerIndex = 0
     private var currentMarkerView: UIView?
     
+    // MARK: - Public Variables etc.
+    public var effectAnimationHeight: CGFloat = 10
+    public var effectAnimationDuration: TimeInterval = 0.4
+    public var effectAnimationRepeatCount: Float = .infinity
+    public var effectAnimationAutoReverses = true
+
+    public weak var delegate: CoachMarkerDelegate?
+    
+    // MARK: - Init & Deinit
     public override init() { }
     
     public convenience init (parentView: UIView, dataSource: CoachMarkerDataSource) {
         self.init()
         self.parentView = parentView
         self.dataSource = dataSource
+        addNotificationObservers()
     }
+    
+    deinit {
+        removeNotificationObservers()
+    }
+    
+    // MARK: - Public functions
     
     public func nextCoachMarker() {
         showCoachMarker()
     }
     
     public func showCoachMarker() {
-        
+        guard let dataSource = dataSource else { return }
         if currentMarkerIndex < dataSource.numberOfMarkers(in: self) {
             changeCoachMarker(data: dataSource.coachMarker(self, markerForItemAtIndex: currentMarkerIndex))
         } else {
@@ -56,6 +72,8 @@ public final class CoachMarker: NSObject {
         delegate?.coachMarkerDidShow(self)
     }
     
+    // MARK: - Private functions
+
     private func changeCoachMarker(data: CoachMarkerData) {
         removeMarker() { [weak self] in
             guard let self = self else { return }
@@ -79,9 +97,9 @@ public final class CoachMarker: NSObject {
             UIView.animate(withDuration: 0.25, animations: {
                 currentMarkerView.alpha = 0.10
             }) { [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.currentMarkerView?.removeFromSuperview()
-                strongSelf.currentMarkerView = nil
+                guard let self = self else { return }
+                self.currentMarkerView?.removeFromSuperview()
+                self.currentMarkerView = nil
                 completion?()
             }
         } else {
@@ -91,10 +109,11 @@ public final class CoachMarker: NSObject {
         }
     }
     
-    
+    // MARK: - Logic
+
     private func createOverlayWithCircle( xOffset: CGFloat, yOffset: CGFloat, radius: CGFloat) -> UIView {
         
-        let overlayView = dataSource.coachMarker(self, viewForItemAtIndex: currentMarkerIndex)
+        guard let overlayView = dataSource?.coachMarker(self, viewForItemAtIndex: currentMarkerIndex) else { return UIView(frame: .zero) }
         
         let firstPath = createRadiusPath(size: overlayView.frame.size, xOffset: xOffset, yOffset: yOffset, radius: radius)
         let secondPath = createRadiusPath(size: overlayView.frame.size, xOffset: xOffset, yOffset: yOffset, radius: radius + effectAnimationHeight)
@@ -106,7 +125,7 @@ public final class CoachMarker: NSObject {
     
     private func createOverlay(offset: CGRect) -> UIView {
         
-        let overlayView = dataSource.coachMarker(self, viewForItemAtIndex: currentMarkerIndex)
+        guard let overlayView = dataSource?.coachMarker(self, viewForItemAtIndex: currentMarkerIndex) else { return UIView(frame: .zero) }
         
         let firstPath = createOverlayPath(offset: offset, size: overlayView.bounds.size, effectHeight: 0)
         let secondPath = createOverlayPath(offset: offset, size: overlayView.bounds.size, effectHeight: effectAnimationHeight)
@@ -119,20 +138,20 @@ public final class CoachMarker: NSObject {
     private func createAnimateGroup(animation: CAAnimation) -> CAAnimationGroup {
         let animates = CAAnimationGroup()
         animates.animations = [animation]
-        animates.autoreverses = true
-        animates.repeatCount = .infinity
-        animates.duration = 0.4
+        animates.autoreverses = effectAnimationAutoReverses
+        animates.repeatCount = effectAnimationRepeatCount
+        animates.duration = effectAnimationDuration
         return animates
     }
     
     private func addAnimation(firstPath: CGMutablePath, secondPath: CGMutablePath, overlayView: UIView) {
-        // Note: this keyPath is a not hard coded text, it's a keyword of animation
-        let pathAnimation = CABasicAnimation(keyPath: "path")
+        pathAnimation = CABasicAnimation(keyPath: "path")
+        guard let pathAnimation = pathAnimation else { return }
         pathAnimation.fromValue = firstPath
         pathAnimation.toValue = secondPath
         
         let shape = createShape(path: firstPath)
-        shape.add(createAnimateGroup(animation: pathAnimation), forKey: nil)
+        shape.add(createAnimateGroup(animation: pathAnimation), forKey: animationKey)
         overlayView.layer.mask = shape
         overlayView.clipsToBounds = true
     }
@@ -163,8 +182,39 @@ public final class CoachMarker: NSObject {
         maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
         return maskLayer
     }
+    
+    
 }
-
+// MARK: - Restart animation when app coming from background
+private extension CoachMarker {
+    @objc private func didEnterBackground() {
+        currentMarkerView?.layer.mask?.removeAllAnimations()
+    }
+    
+    @objc private func willEnterForeground() {
+        guard
+            let currentMarkerView = currentMarkerView,
+            currentMarkerView.layer.mask?.animation(forKey: animationKey) == nil,
+            let pathAnimation = pathAnimation else { return }
+        
+        currentMarkerView.layer.mask?.add(createAnimateGroup(animation: pathAnimation), forKey: animationKey)
+    }
+    
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground),
+                                               name:  UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground),
+                                               name:  UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    private func removeNotificationObservers() {
+        guard #available(iOS 9, *) else {
+            NotificationCenter.default.removeObserver(self)
+            return
+        }
+    }
+}
+// MARK: - Data Classes
 public final class CoachMarkerCircleData: CoachMarkerData {
     var radius: CGFloat!
     
