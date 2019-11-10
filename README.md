@@ -1,7 +1,7 @@
 # CoachMarker
 
 <p align="left">
-<img src="https://media.giphy.com/media/1QkVscQMop9JU1b0Wk/giphy.gif" />
+<img src="images/coachMarker-tutorial.gif" />
 </p>
 
 `CoachMarker` is a helper to simplify onboarding tutorials
