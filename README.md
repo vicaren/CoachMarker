@@ -61,7 +61,9 @@ class ViewController: UIViewController {
         coachMarker?.showCoachMarker()
     }
 }
+
 extension ViewController: CoachMarkerDataSource {
+
     func numberOfMarkers(in marker: CoachMarker) -> Int {
         return markerTexts.count
     }
@@ -78,12 +80,16 @@ extension ViewController: CoachMarkerDataSource {
     }
     
 }
+
 extension ViewController: CoachMarkerDelegate {
+
     func coachMarkerDidShow(_ coachMarker: CoachMarker) {
         // TODO: When CoachMarker finished
     }
 }
+
 extension ViewController: TutorialDelegate {
+
     func tutorialDidSkipTapped(tutorial: Tutorial) {
         coachMarker?.skipCoachMarker()
     }
@@ -94,6 +100,29 @@ extension ViewController: TutorialDelegate {
 }
 
 ```
+
+
+Find this docs useful?
+======================
+
+Find this docs useful? :heart: 
+
+Support it by joining [stargazers](https://github.com/vicaren/CoachMarker/stargazers) for this repository. :star: 
+
+And [follow](https://github.com/vicaren) me for my next creations! 🤩
+
+
+Contribution
+-------
+If you've found an error in the library or sample, please file an issue.
+
+Patches are encouraged, and may be submitted by forking this project and submitting a pull request.
+
+If you contributed to `noticeboard` but your name is not in the list, please feel free to add yourself to it!
+
+- [Ahmet Dogu](https://github.com/vicaren) - Creator / Maintainer
+- [Emre Ciftci](https://github.com/emrcftci) - Collaborator, Improvements
+
 
 ## License
 CoachMarker is licensed under the MIT License, please see the [LICENSE](LICENSE) file.
