@@ -120,7 +120,7 @@ Patches are encouraged, and may be submitted by forking this project and submitt
 
 If you contributed to `noticeboard` but your name is not in the list, please feel free to add yourself to it!
 
-- [Ahmet Dogu](https://github.com/vicaren) - Creator / Maintainer
+- [Ahmet Dogu](https://github.com/vicaren) - Maintainer
 - [Emre Ciftci](https://github.com/emrcftci) - Collaborator, Improvements
 
 
