@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		295F3ABC23780E4C00B3A93E /* UIView+NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295F3ABB23780E4C00B3A93E /* UIView+NibLoadable.swift */; };
 		420340182213FC95001B3F32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420340172213FC95001B3F32 /* AppDelegate.swift */; };
 		4203401A2213FC95001B3F32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420340192213FC95001B3F32 /* ViewController.swift */; };
 		4203401D2213FC95001B3F32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4203401B2213FC95001B3F32 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		295F3ABB23780E4C00B3A93E /* UIView+NibLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+NibLoadable.swift"; sourceTree = "<group>"; };
 		420340142213FC95001B3F32 /* CoachMarkerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoachMarkerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		420340172213FC95001B3F32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		420340192213FC95001B3F32 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +43,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		295F3AB923780D2700B3A93E /* CoachMarker */ = {
+			isa = PBXGroup;
+			children = (
+				420340292213FCA6001B3F32 /* CoachMarker.swift */,
+				4203402B2213FCE3001B3F32 /* Tutorial.xib */,
+				4203402D2213FD2D001B3F32 /* Tutorial.swift */,
+			);
+			path = CoachMarker;
+			sourceTree = "<group>";
+		};
+		295F3ABA23780E3A00B3A93E /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				295F3ABB23780E4C00B3A93E /* UIView+NibLoadable.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		4203400B2213FC95001B3F32 = {
 			isa = PBXGroup;
 			children = (
@@ -60,15 +80,14 @@
 		420340162213FC95001B3F32 /* CoachMarkerApp */ = {
 			isa = PBXGroup;
 			children = (
+				295F3ABA23780E3A00B3A93E /* Extension */,
+				295F3AB923780D2700B3A93E /* CoachMarker */,
 				420340172213FC95001B3F32 /* AppDelegate.swift */,
 				420340192213FC95001B3F32 /* ViewController.swift */,
 				4203401B2213FC95001B3F32 /* Main.storyboard */,
 				4203401E2213FC96001B3F32 /* Assets.xcassets */,
 				420340202213FC96001B3F32 /* LaunchScreen.storyboard */,
 				420340232213FC96001B3F32 /* Info.plist */,
-				420340292213FCA6001B3F32 /* CoachMarker.swift */,
-				4203402B2213FCE3001B3F32 /* Tutorial.xib */,
-				4203402D2213FD2D001B3F32 /* Tutorial.swift */,
 			);
 			path = CoachMarkerApp;
 			sourceTree = "<group>";
@@ -105,6 +124,7 @@
 				TargetAttributes = {
 					420340132213FC95001B3F32 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1030;
 					};
 				};
 			};
@@ -148,6 +168,7 @@
 				4203402A2213FCA6001B3F32 /* CoachMarker.swift in Sources */,
 				4203402E2213FD2D001B3F32 /* Tutorial.swift in Sources */,
 				4203401A2213FC95001B3F32 /* ViewController.swift in Sources */,
+				295F3ABC23780E4C00B3A93E /* UIView+NibLoadable.swift in Sources */,
 				420340182213FC95001B3F32 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,7 +323,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vicaren.CoachMarkerApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -319,7 +340,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vicaren.CoachMarkerApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
