@@ -17,7 +17,7 @@ iOS 8.0 or above
 
 Add the following to your Podfile:
 ``` ruby
-pod 'CoachMarker', '~> 1.0'
+pod 'CoachMarker'
 ```
 
 ### Carthage
